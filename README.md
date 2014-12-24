@@ -9,12 +9,14 @@
 ### Objective-C
 
 ```objective-c
+#include "Eventually.h"
+
 // Expose an event for others to consume
 @interface Game : NSObject {
     Fireable *_onScoreUpdated;
 }
 
-@property (nonatomic, readonly) id<Event> onScoreUpdated;
+@property (nonatomic, readonly) Event *onScoreUpdated;
 
 @end
 
@@ -32,8 +34,8 @@
 @end
 
 // Consume an event
-[game.onScoreUpdated on:^(Score *score) {
+[game.onScoreUpdated handledBy:^(Score *score) {
     [viewController updateScore:score];
-} scope:viewController];
+} inScope:viewController];
 
 ```
