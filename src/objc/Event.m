@@ -1,11 +1,11 @@
 //
-//  Eventually.m
+//  Event.m
 //  eventually
 //
 //  Copyright (c) 2014 Mike Roberts. All rights reserved.
 //
 
-#import "Eventually.h"
+#import "Event.h"
 #import <libkern/OSAtomic.h>
 #import <objc/runtime.h>
 
@@ -15,18 +15,20 @@
 
 @property (nonatomic, copy) event_handler_t handler;
 @property (nonatomic, weak) id scope;
+@property (nonatomic, retain) Event *event;
 
-- (instancetype)initWithBlock:(event_handler_t)handler scope:(id)scope;
+- (instancetype)initWithBlock:(event_handler_t)handler scope:(id)scope event:(Event *)event;
 
 @end
 
 @implementation BoundBlock
 
-- (instancetype)initWithBlock:(event_handler_t)handler scope:(id)scope
+- (instancetype)initWithBlock:(event_handler_t)handler scope:(id)scope event:(Event *)event
 {
     if (self = [super init]) {
         self.handler = handler;
         self.scope = scope;
+        self.event = event;
     }
     
     return self;
@@ -96,6 +98,17 @@
 
 @end
 
+@implementation Event
+
+@synthesize isWeak = _isWeak;
+
+- (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object
+{
+    @throw @"Not Implemented";
+}
+
+@end
+
 @implementation Fireable
 
 - (instancetype)init
@@ -121,7 +134,7 @@
 - (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object
 {
     Scope *scope = [Scope scopeForObject:object];
-    BoundBlock *blockBinding = [[BoundBlock alloc] initWithBlock:handler scope:object];
+    BoundBlock *blockBinding = [[BoundBlock alloc] initWithBlock:handler scope:object event:(self.isWeak ? self : nil)];
     
     WeaklyBoundBlock *weakBinding = [[WeaklyBoundBlock alloc] init];
     StronglyBoundBlock *strongBinding = [[StronglyBoundBlock alloc] init];
@@ -133,9 +146,9 @@
         if (_fireCallStackDepth > 0) {
             _bindingsDirty = YES;
             
-            NSMutableArray *bindingsCopy = [NSMutableArray arrayWithArray:self.bindings];
-            
-            self.bindings = bindingsCopy;
+            // make a copy of the existing handler list so the currently iterating
+            // fire method doesn't break
+            self.bindings = [NSMutableArray arrayWithArray:self.bindings];
         }
         
         [self.bindings addObject:weakBinding];
@@ -186,8 +199,10 @@
             }
         }
         
-        @synchronized (self.bindingLock) {
-            _bindingsDirty = NO;
+        if (_bindingsDirty) {
+            @synchronized (self.bindingLock) {
+                _bindingsDirty = NO;
+            }
         }
     }
 }
@@ -250,6 +265,7 @@
     
     boundBlock.scope = nil;
     boundBlock.handler = nil;
+    boundBlock.event = nil;
 }
 
 @end

@@ -22,7 +22,7 @@
     id scope = [[NSObject alloc] init];
     
     Fireable *fireable = [Fireable fireable];
-    id<Event> event = fireable;
+    Event *event = fireable;
     
     [event handledBy:^(id arg) {
         result = arg;
@@ -43,7 +43,7 @@
     __block int scope1FireCount = 0;;
     
     Fireable *fireable = [Fireable fireable];
-    id<Event> event = fireable;
+    Event *event = fireable;
     
     id scope1 = [[NSObject alloc] init];
     
@@ -76,7 +76,7 @@
     __block int fireCount = 0;;
     
     Fireable *fireable = [Fireable fireable];
-    id<Event> event = fireable;
+    Event *event = fireable;
     
     id scope = [[NSObject alloc] init];
     
@@ -104,7 +104,7 @@
     __block int fireCount = 0;;
     
     Fireable *fireable = [Fireable fireable];
-    id<Event> event = fireable;
+    Event *event = fireable;
     
     id scope = [[NSObject alloc] init];
     
@@ -130,7 +130,7 @@
     __block int handler3Count = 0;
     
     Fireable *fireable = [Fireable fireable];
-    id<Event> event = fireable;
+    Event *event = fireable;
     
     id scope = [[NSObject alloc] init];
     
@@ -178,11 +178,11 @@
 - (void)testPerformance
 {
     Fireable *fireable = [Fireable fireable];
-    id<Event> event = fireable;
+    Event *event = fireable;
     
     id scope = [[NSObject alloc] init];
     
-    const int handlers = 1000;
+    const int handlers = 100;
     const int iterations = 1000;
     
     __block int runs = 0;
@@ -208,7 +208,7 @@
 - (void)testHighConcurrency
 {
     Fireable *fireable = [Fireable fireable];
-    id<Event> event = fireable;
+    Event *event = fireable;
     
     const int queueCount = 20;
     dispatch_queue_t queue[queueCount];

@@ -21,7 +21,7 @@
     const int scopeCount = 100;
     
     Fireable *fireable = [Fireable fireable];
-    id<Event> event = fireable;
+    Event *event = fireable;
     
     __block int eventsFired1 = 0;
     __block int eventsFired2 = 0;
@@ -71,7 +71,7 @@
 - (void)testWhenUnboundFromAnEventAnySubsqeuntFireDoesntCallTheHandler
 {
     Fireable *fireable = [Fireable fireable];
-    id<Event> event = fireable;
+    Event *event = fireable;
     
     __block int eventsFired = 0;
     __block BOOL first = YES;
@@ -98,7 +98,7 @@
 - (void)testWhenBoundToAnEventAnySubsqeuntFireCallsTheHandler
 {
     Fireable *fireable = [Fireable fireable];
-    id<Event> event = fireable;
+    Event *event = fireable;
     
     __block int eventsFired = 0;
     __block BOOL first = YES;
