@@ -1,0 +1,13 @@
+.DS_Store
+
+*.pbxuser
+
+*.xcodeproj/xcuserdata/*.xcuserdatad
+
+*.xccheckout
+*.xcuserdatad
+
+Pods
+
+DerivedData
+build
