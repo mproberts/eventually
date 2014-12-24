@@ -10,10 +10,8 @@
 		78E984611A494B2D006387D8 /* libeventually.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E984551A494B2D006387D8 /* libeventually.a */; };
 		78E984861A4B0F2F006387D8 /* EventFiringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E984851A4B0F2F006387D8 /* EventFiringTests.m */; };
 		78E984891A4B4EFD006387D8 /* TheRulesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E984881A4B4EFD006387D8 /* TheRulesTests.m */; };
-		78E9848B1A4B6DE3006387D8 /* Event+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9848A1A4B6DE3006387D8 /* Event+Transform.m */; };
 		78E9848F1A4B6FB2006387D8 /* Fireable+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E9848E1A4B6FB2006387D8 /* Fireable+Private.m */; };
 		78E984921A4B713F006387D8 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E984911A4B713F006387D8 /* Event.m */; };
-		78E984941A4B71D0006387D8 /* EventTransformTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E984931A4B71D0006387D8 /* EventTransformTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,13 +43,10 @@
 		78E984711A494EED006387D8 /* Eventually.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Eventually.h; path = src/objc/Eventually.h; sourceTree = SOURCE_ROOT; };
 		78E984851A4B0F2F006387D8 /* EventFiringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventFiringTests.m; path = objc/EventFiringTests.m; sourceTree = "<group>"; };
 		78E984881A4B4EFD006387D8 /* TheRulesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TheRulesTests.m; path = objc/TheRulesTests.m; sourceTree = "<group>"; };
-		78E9848A1A4B6DE3006387D8 /* Event+Transform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Event+Transform.m"; path = "src/objc/Event+Transform.m"; sourceTree = SOURCE_ROOT; };
-		78E9848C1A4B6E3B006387D8 /* Event+Transform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Event+Transform.h"; path = "src/objc/Event+Transform.h"; sourceTree = SOURCE_ROOT; };
 		78E9848D1A4B6FB2006387D8 /* Fireable+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Fireable+Private.h"; path = "src/objc/Fireable+Private.h"; sourceTree = SOURCE_ROOT; };
 		78E9848E1A4B6FB2006387D8 /* Fireable+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Fireable+Private.m"; path = "src/objc/Fireable+Private.m"; sourceTree = SOURCE_ROOT; };
 		78E984901A4B713F006387D8 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Event.h; path = src/objc/Event.h; sourceTree = SOURCE_ROOT; };
 		78E984911A4B713F006387D8 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Event.m; path = src/objc/Event.m; sourceTree = SOURCE_ROOT; };
-		78E984931A4B71D0006387D8 /* EventTransformTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventTransformTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +100,6 @@
 				78E984651A494B2D006387D8 /* Supporting Files */,
 				78E984851A4B0F2F006387D8 /* EventFiringTests.m */,
 				78E984881A4B4EFD006387D8 /* TheRulesTests.m */,
-				78E984931A4B71D0006387D8 /* EventTransformTests.m */,
 			);
 			name = "eventually-tests";
 			path = test;
@@ -123,8 +117,6 @@
 			isa = PBXGroup;
 			children = (
 				78E984711A494EED006387D8 /* Eventually.h */,
-				78E9848A1A4B6DE3006387D8 /* Event+Transform.m */,
-				78E9848C1A4B6E3B006387D8 /* Event+Transform.h */,
 				78E9848D1A4B6FB2006387D8 /* Fireable+Private.h */,
 				78E9848E1A4B6FB2006387D8 /* Fireable+Private.m */,
 				78E984901A4B713F006387D8 /* Event.h */,
@@ -224,7 +216,6 @@
 			files = (
 				78E984921A4B713F006387D8 /* Event.m in Sources */,
 				78E9848F1A4B6FB2006387D8 /* Fireable+Private.m in Sources */,
-				78E9848B1A4B6DE3006387D8 /* Event+Transform.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,7 +224,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				78E984861A4B0F2F006387D8 /* EventFiringTests.m in Sources */,
-				78E984941A4B71D0006387D8 /* EventTransformTests.m in Sources */,
 				78E984891A4B4EFD006387D8 /* TheRulesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
