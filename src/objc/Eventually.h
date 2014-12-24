@@ -1,5 +1,5 @@
 //
-//  eventually.h
+//  Eventually.h
 //  eventually
 //
 //  Copyright (c) 2014 Mike Roberts. All rights reserved.
@@ -17,7 +17,7 @@ typedef void (^event_handler_t)(id arg);
 
 @protocol Event
 
-- (EventBinding *)on:(event_handler_t)handler scope:(id)scope;
+- (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object;
 
 @end
 
@@ -25,7 +25,7 @@ typedef void (^event_handler_t)(id arg);
 
 + (Fireable *)fireable;
 
-- (EventBinding *)on:(event_handler_t)handler scope:(id)scope;
+- (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object;
 
 - (void)fire:(id)eventArg;
 

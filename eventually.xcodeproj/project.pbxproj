@@ -10,6 +10,7 @@
 		78E984611A494B2D006387D8 /* libeventually.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E984551A494B2D006387D8 /* libeventually.a */; };
 		78E984731A494EED006387D8 /* Eventually.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E984721A494EED006387D8 /* Eventually.m */; };
 		78E984861A4B0F2F006387D8 /* EventFiringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E984851A4B0F2F006387D8 /* EventFiringTests.m */; };
+		78E984891A4B4EFD006387D8 /* TheRulesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E984881A4B4EFD006387D8 /* TheRulesTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		78E984711A494EED006387D8 /* Eventually.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Eventually.h; path = src/objc/Eventually.h; sourceTree = SOURCE_ROOT; };
 		78E984721A494EED006387D8 /* Eventually.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Eventually.m; path = src/objc/Eventually.m; sourceTree = SOURCE_ROOT; };
 		78E984851A4B0F2F006387D8 /* EventFiringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventFiringTests.m; path = objc/EventFiringTests.m; sourceTree = "<group>"; };
+		78E984881A4B4EFD006387D8 /* TheRulesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TheRulesTests.m; path = objc/TheRulesTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 			children = (
 				78E984651A494B2D006387D8 /* Supporting Files */,
 				78E984851A4B0F2F006387D8 /* EventFiringTests.m */,
+				78E984881A4B4EFD006387D8 /* TheRulesTests.m */,
 			);
 			name = "eventually-tests";
 			path = test;
@@ -213,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78E984861A4B0F2F006387D8 /* EventFiringTests.m in Sources */,
+				78E984891A4B4EFD006387D8 /* TheRulesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

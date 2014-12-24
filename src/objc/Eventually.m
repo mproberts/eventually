@@ -1,5 +1,5 @@
 //
-//  eventually.m
+//  Eventually.m
 //  eventually
 //
 //  Copyright (c) 2014 Mike Roberts. All rights reserved.
@@ -14,17 +14,19 @@
 @interface BoundBlock : NSObject
 
 @property (nonatomic, copy) event_handler_t handler;
+@property (nonatomic, weak) id scope;
 
-- (instancetype)initWithBlock:(event_handler_t)handler;
+- (instancetype)initWithBlock:(event_handler_t)handler scope:(id)scope;
 
 @end
 
 @implementation BoundBlock
 
-- (instancetype)initWithBlock:(event_handler_t)handler
+- (instancetype)initWithBlock:(event_handler_t)handler scope:(id)scope
 {
     if (self = [super init]) {
         self.handler = handler;
+        self.scope = scope;
     }
     
     return self;
@@ -84,14 +86,13 @@
 @end
 
 @interface Fireable () {
-    volatile int32_t _firingDepth;
-    volatile uint32_t _pendingAdds;
+    volatile int32_t _fireCallStackDepth;
+    volatile uint32_t _bindingsDirty;
 }
 
 @property (nonatomic, retain) NSObject *bindingLock;
 @property (nonatomic, retain) NSMutableArray *bindings;
 @property (nonatomic, retain) NSMutableArray *temporaryBindingsToAdd;
-@property (nonatomic, retain) NSMutableArray *temporaryBindingsToRemove;
 
 @end
 
@@ -102,12 +103,11 @@
     if (self = [super init]) {
         self.bindings = [[NSMutableArray alloc] init];
         self.temporaryBindingsToAdd = [[NSMutableArray alloc] init];
-        self.temporaryBindingsToRemove = [[NSMutableArray alloc] init];
         
         self.bindingLock = [[NSObject alloc] init];
         
-        _firingDepth = 0;
-        _pendingAdds = 0;
+        _fireCallStackDepth = 0;
+        _bindingsDirty = 0;
     }
     
     return self;
@@ -118,10 +118,10 @@
     return [[Fireable alloc] init];
 }
 
-- (EventBinding *)on:(event_handler_t)handler scope:(id)object
+- (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object
 {
     Scope *scope = [Scope scopeForObject:object];
-    BoundBlock *blockBinding = [[BoundBlock alloc] initWithBlock:handler];
+    BoundBlock *blockBinding = [[BoundBlock alloc] initWithBlock:handler scope:object];
     
     WeaklyBoundBlock *weakBinding = [[WeaklyBoundBlock alloc] init];
     StronglyBoundBlock *strongBinding = [[StronglyBoundBlock alloc] init];
@@ -130,15 +130,15 @@
     strongBinding.binding = blockBinding;
     
     @synchronized (self.bindingLock) {
-        if (_firingDepth > 0) {
-            OSAtomicTestAndSet(0, &_pendingAdds);
+        if (_fireCallStackDepth > 0) {
+            _bindingsDirty = YES;
             
-            // this binding will get added in the next pass
-            [self.temporaryBindingsToAdd addObject:weakBinding];
+            NSMutableArray *bindingsCopy = [NSMutableArray arrayWithArray:self.bindings];
+            
+            self.bindings = bindingsCopy;
         }
-        else {
-            [self.bindings addObject:weakBinding];
-        }
+        
+        [self.bindings addObject:weakBinding];
     }
     
     // strongly retain the handler
@@ -149,46 +149,45 @@
 
 - (void)fire:(id)eventArg
 {
-    OSAtomicIncrement32(&_firingDepth);
+    OSAtomicIncrement32(&_fireCallStackDepth);
     
     size_t position = 0;
-    BOOL buildingRemovalList = NO;
-    
+    NSArray *currentBindings = self.bindings;
     NSMutableArray *bindingsToKeep = nil;
     
-    for (WeaklyBoundBlock *binding in self.bindings) {
-        event_handler_t handler = binding.handler;
+    for (WeaklyBoundBlock *weakBinding in currentBindings) {
+        event_handler_t handler = weakBinding.binding.handler;
+        id retainedScope = weakBinding.binding.scope;
         
         ++position;
         
-        if (handler) {
+        if (retainedScope && handler) {
             handler(eventArg);
             
-            if (buildingRemovalList) {
-                [bindingsToKeep addObject:binding];
+            // if we are building a keep list currently and the effort is not futile
+            if (bindingsToKeep && !_bindingsDirty) {
+                // keep around this binding since it's a good one
+                [bindingsToKeep addObject:weakBinding];
             }
         }
         else {
-            buildingRemovalList = YES;
             bindingsToKeep = [NSMutableArray arrayWithArray:[self.bindings subarrayWithRange:NSMakeRange(0, position-1)]];
         }
     }
     
-    if (OSAtomicDecrement32(&_firingDepth) == 0) {
-        if (OSAtomicTestAndClear(0, &_pendingAdds)) {
-            if (self.temporaryBindingsToRemove.count) {
-                [self.bindings removeObjectsInArray:self.temporaryBindingsToRemove];
-                
-                [self.temporaryBindingsToRemove removeAllObjects];
-            }
-            
+    if (OSAtomicDecrement32(&_fireCallStackDepth) == 0) {
+        if (bindingsToKeep && !_bindingsDirty) {
             @synchronized (self.bindingLock) {
-                if (self.temporaryBindingsToAdd.count) {
-                    [self.bindings addObjectsFromArray:self.temporaryBindingsToAdd];
-                    
-                    [self.temporaryBindingsToAdd removeAllObjects];
+                if (!_bindingsDirty) {
+                    // if the bindings are definitely not dirty,
+                    // update the bindings with the cleaned up copy
+                    self.bindings = bindingsToKeep;
                 }
             }
+        }
+        
+        @synchronized (self.bindingLock) {
+            _bindingsDirty = NO;
         }
     }
 }
@@ -245,6 +244,12 @@
 - (void)remove
 {
     [self.scope removeBinding:self.binding];
+    
+    // destroy the binding context
+    BoundBlock *boundBlock = self.binding.binding;
+    
+    boundBlock.scope = nil;
+    boundBlock.handler = nil;
 }
 
 @end

@@ -24,9 +24,9 @@
     Fireable *fireable = [Fireable fireable];
     id<Event> event = fireable;
     
-    [event on:^(id arg) {
+    [event handledBy:^(id arg) {
         result = arg;
-    } scope:scope];
+    } inScope:scope];
     
     [fireable fire:@12];
     
@@ -47,16 +47,16 @@
     
     id scope1 = [[NSObject alloc] init];
     
-    [event on:^(id arg) {
+    [event handledBy:^(id arg) {
         ++scope1FireCount;
-    } scope:scope1];
+    } inScope:scope1];
     
     {
         id scope2 = [[NSObject alloc] init];
         
-        [event on:^(id arg) {
+        [event handledBy:^(id arg) {
             result = arg;
-        } scope:scope2];
+        } inScope:scope2];
         
         [fireable fire:@12];
         
@@ -80,9 +80,9 @@
     
     id scope = [[NSObject alloc] init];
     
-    EventBinding *binding = [event on:^(id arg) {
+    EventBinding *binding = [event handledBy:^(id arg) {
         ++fireCount;
-    } scope:scope];
+    } inScope:scope];
     
     [fireable fire:@1];
     
@@ -108,10 +108,10 @@
     
     id scope = [[NSObject alloc] init];
     
-    __block EventBinding *binding = [event on:^(id arg) {
+    __block EventBinding *binding = [event handledBy:^(id arg) {
         ++fireCount;
         [binding remove];
-    } scope:scope];
+    } inScope:scope];
     
     [fireable fire:@1];
     
@@ -136,25 +136,25 @@
     
     ++addedHandlers;
     
-    [event on:^(id arg) {
+    [event handledBy:^(id arg) {
         ++handler1Count;
     
         if (addedHandlers == 1) {
-            [event on:^(id arg) {
+            [event handledBy:^(id arg) {
                 ++handler2Count;
                 
                 if (addedHandlers == 2) {
-                    [event on:^(id arg) {
+                    [event handledBy:^(id arg) {
                         ++handler3Count;
-                    } scope:scope];
+                    } inScope:scope];
                     
                     ++addedHandlers;
                 }
-            } scope:scope];
+            } inScope:scope];
             
             ++addedHandlers;
         }
-    } scope:scope];
+    } inScope:scope];
     
     [fireable fire:@1];
     
@@ -189,9 +189,9 @@
     __block int firedEvents = 0;
     
     for (int i = 0; i < handlers; ++i) {
-        [event on:^(id arg) {
+        [event handledBy:^(id arg) {
             ++firedEvents;
-        } scope:scope];
+        } inScope:scope];
     }
     
     [self measureBlock:^{
@@ -223,10 +223,10 @@
     id scope = [[NSObject alloc] init];
     
     for (int i = 0; i < handlers; ++i) {
-        [event on:^(id arg) {
+        [event handledBy:^(id arg) {
             // track the events being fired
             OSAtomicIncrement32(&firedEvents);
-        } scope:scope];
+        } inScope:scope];
     }
 
     for (int i = 0; i < queueCount; ++i) {
