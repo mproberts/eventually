@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 
 typedef void (^event_handler_t)(id arg);
+typedef id (^transform_method_t)(id arg);
 
 @interface EventBinding : NSObject
 
@@ -22,6 +23,8 @@ typedef void (^event_handler_t)(id arg);
 @property (nonatomic, readonly) BOOL isWeak;
 
 - (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object;
+
+- (Event *)transformedWith:(transform_method_t)method;
 
 @end
 

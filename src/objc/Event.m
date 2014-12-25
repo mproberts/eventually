@@ -96,6 +96,8 @@
 @property (nonatomic, retain) NSMutableArray *bindings;
 @property (nonatomic, retain) NSMutableArray *temporaryBindingsToAdd;
 
+- (instancetype)initWithIsWeak:(BOOL)weak;
+
 @end
 
 @implementation Event
@@ -107,17 +109,37 @@
     @throw @"Not Implemented";
 }
 
+- (Event *)transformedWith:(transform_method_t)method
+{
+    Fireable *fireable = [[Fireable alloc] initWithIsWeak:YES];
+    
+    // bind the fireable to itself, this will have to be retained by
+    // any interested events
+    [self handledBy:^(id arg) {
+        [fireable fire:method(arg)];
+    } inScope:fireable];
+    
+    return fireable;
+}
+
 @end
 
 @implementation Fireable
 
 - (instancetype)init
 {
+    return [self initWithIsWeak:NO];
+}
+
+- (instancetype)initWithIsWeak:(BOOL)weak
+{
     if (self = [super init]) {
         self.bindings = [[NSMutableArray alloc] init];
         self.temporaryBindingsToAdd = [[NSMutableArray alloc] init];
         
         self.bindingLock = [[NSObject alloc] init];
+        
+        _isWeak = weak;
         
         _fireCallStackDepth = 0;
         _bindingsDirty = 0;
