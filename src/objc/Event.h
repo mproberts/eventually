@@ -22,6 +22,10 @@ typedef id (^transform_method_t)(id arg);
 
 - (Event *)transformedWith:(transform_method_t)method;
 
+- (Event *)onQueue:(dispatch_queue_t)queue;
+
+- (Event *)onMainQueue;
+
 @end
 
 @interface Fireable : Event

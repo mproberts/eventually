@@ -8,6 +8,7 @@
 #import "Event.h"
 #import <libkern/OSAtomic.h>
 #import <objc/runtime.h>
+#import <pthread.h>
 
 #define EVENTUALLY_BOUND_SCOPE "com.mproberts.eventually.EVENTUALLY_BOUND_SCOPE"
 
@@ -113,6 +114,41 @@
     // any interested events
     [self handledBy:^(id arg) {
         [fireable fire:method(arg)];
+    } inScope:fireable];
+    
+    return fireable;
+}
+
+- (Event *)onQueue:(dispatch_queue_t)queue
+{
+    Fireable *fireable = [[Fireable alloc] init];
+    
+    // bind the fireable to itself, this will have to be retained by
+    // any interested events
+    [self handledBy:^(id arg) {
+        dispatch_async(queue, ^{
+            [fireable fire:arg];
+        });
+    } inScope:fireable];
+    
+    return fireable;
+}
+
+- (Event *)onMainQueue
+{
+    Fireable *fireable = [[Fireable alloc] init];
+    
+    // bind the fireable to itself, this will have to be retained by
+    // any interested events
+    [self handledBy:^(id arg) {
+        if (pthread_main_np()) {
+            [fireable fire:arg];
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [fireable fire:arg];
+            });
+        }
     } inScope:fireable];
     
     return fireable;

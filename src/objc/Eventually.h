@@ -6,4 +6,3 @@
 //
 
 #import "Event.h"
-#import "Event+Transform.h"
