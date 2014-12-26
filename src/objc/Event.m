@@ -96,13 +96,9 @@
 @property (nonatomic, retain) NSMutableArray *bindings;
 @property (nonatomic, retain) NSMutableArray *temporaryBindingsToAdd;
 
-- (instancetype)initWithIsWeak:(BOOL)weak;
-
 @end
 
 @implementation Event
-
-@synthesize isWeak = _isWeak;
 
 - (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object
 {
@@ -111,7 +107,7 @@
 
 - (Event *)transformedWith:(transform_method_t)method
 {
-    Fireable *fireable = [[Fireable alloc] initWithIsWeak:YES];
+    Fireable *fireable = [[Fireable alloc] init];
     
     // bind the fireable to itself, this will have to be retained by
     // any interested events
@@ -128,18 +124,11 @@
 
 - (instancetype)init
 {
-    return [self initWithIsWeak:NO];
-}
-
-- (instancetype)initWithIsWeak:(BOOL)weak
-{
     if (self = [super init]) {
         self.bindings = [[NSMutableArray alloc] init];
         self.temporaryBindingsToAdd = [[NSMutableArray alloc] init];
         
         self.bindingLock = [[NSObject alloc] init];
-        
-        _isWeak = weak;
         
         _fireCallStackDepth = 0;
         _bindingsDirty = 0;
@@ -156,7 +145,7 @@
 - (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object
 {
     Scope *scope = [Scope scopeForObject:object];
-    BoundBlock *blockBinding = [[BoundBlock alloc] initWithBlock:handler scope:object event:(self.isWeak ? self : nil)];
+    BoundBlock *blockBinding = [[BoundBlock alloc] initWithBlock:handler scope:object event:self];
     
     WeaklyBoundBlock *weakBinding = [[WeaklyBoundBlock alloc] init];
     StronglyBoundBlock *strongBinding = [[StronglyBoundBlock alloc] init];

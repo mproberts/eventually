@@ -16,11 +16,7 @@ typedef id (^transform_method_t)(id arg);
 
 @end
 
-@interface Event : NSObject {
-    BOOL _isWeak;
-}
-
-@property (nonatomic, readonly) BOOL isWeak;
+@interface Event : NSObject
 
 - (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object;
 
