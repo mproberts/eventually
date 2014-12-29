@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import <pthread/pthread.h>
+#import <pthread.h>
 #import "Eventually.h"
 
 @interface EventAsyncTests : XCTestCase
