@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/mproberts/eventually.svg)](https://travis-ci.org/mproberts/eventually)
-
 # Eventually
+
+[![Build Status](https://travis-ci.org/mproberts/eventually.svg)](https://travis-ci.org/mproberts/eventually)
 
 Lightweight, scoped eventing framework for Objective-c (and other languages).
 
