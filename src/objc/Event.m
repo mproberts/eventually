@@ -97,6 +97,10 @@
 @property (nonatomic, retain) NSMutableArray *bindings;
 @property (nonatomic, retain) NSMutableArray *temporaryBindingsToAdd;
 
+- (BOOL)onBind:(event_handler_t)handler;
+
+- (void)removeAllBindings;
+
 @end
 
 @implementation Event
@@ -178,6 +182,18 @@
     return [[Fireable alloc] init];
 }
 
+- (BOOL)onBind:(event_handler_t)handler
+{
+    return YES;
+}
+
+- (void)removeAllBindings
+{
+    @synchronized (self.bindingLock) {
+        self.bindings = [[NSMutableArray alloc] init];
+    }
+}
+
 - (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object
 {
     Scope *scope = [Scope scopeForObject:object];
@@ -190,6 +206,10 @@
     strongBinding.binding = blockBinding;
     
     @synchronized (self.bindingLock) {
+        if (![self onBind:handler]) {
+            return [[EventBinding alloc] initWithBinding:nil scope:scope];
+        }
+        
         if (_fireCallStackDepth > 0) {
             _bindingsDirty = YES;
             

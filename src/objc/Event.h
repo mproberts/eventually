@@ -36,6 +36,8 @@ typedef id (^transform_method_t)(id arg);
 
 - (void)fire:(id)eventArg;
 
+- (void)removeAllBindings;
+
 @end
 
 @interface Scope : NSObject

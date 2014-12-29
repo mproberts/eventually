@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7882883F1A4CBE3E0059A7F1 /* EventTransformTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7882883D1A4CBE280059A7F1 /* EventTransformTests.m */; };
-		788288411A4DF9BD0059A7F1 /* EventAsyncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 788288401A4DF9BD0059A7F1 /* EventAsyncTests.m */; };
+		788288441A51519C0059A7F1 /* Future.m in Sources */ = {isa = PBXBuildFile; fileRef = 788288431A51519C0059A7F1 /* Future.m */; };
+		788288471A5156190059A7F1 /* CallOnBindFireable.m in Sources */ = {isa = PBXBuildFile; fileRef = 788288461A5156190059A7F1 /* CallOnBindFireable.m */; };
+		788288491A515E1C0059A7F1 /* FutureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 788288481A515E1C0059A7F1 /* FutureTests.m */; };
+		7882884C1A515E530059A7F1 /* EventAsyncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7882884A1A515E530059A7F1 /* EventAsyncTests.m */; };
+		7882884D1A515E530059A7F1 /* EventTransformTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7882884B1A515E530059A7F1 /* EventTransformTests.m */; };
 		78E984611A494B2D006387D8 /* libeventually.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E984551A494B2D006387D8 /* libeventually.a */; };
 		78E984861A4B0F2F006387D8 /* EventFiringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E984851A4B0F2F006387D8 /* EventFiringTests.m */; };
 		78E984891A4B4EFD006387D8 /* TheRulesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E984881A4B4EFD006387D8 /* TheRulesTests.m */; };
@@ -38,8 +41,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7882883D1A4CBE280059A7F1 /* EventTransformTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventTransformTests.m; sourceTree = "<group>"; };
-		788288401A4DF9BD0059A7F1 /* EventAsyncTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventAsyncTests.m; sourceTree = "<group>"; };
+		788288421A51519C0059A7F1 /* Future.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Future.h; path = src/objc/Future.h; sourceTree = SOURCE_ROOT; };
+		788288431A51519C0059A7F1 /* Future.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Future.m; path = src/objc/Future.m; sourceTree = SOURCE_ROOT; };
+		788288451A5156190059A7F1 /* CallOnBindFireable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CallOnBindFireable.h; path = src/objc/CallOnBindFireable.h; sourceTree = SOURCE_ROOT; };
+		788288461A5156190059A7F1 /* CallOnBindFireable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CallOnBindFireable.m; path = src/objc/CallOnBindFireable.m; sourceTree = SOURCE_ROOT; };
+		788288481A515E1C0059A7F1 /* FutureTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FutureTests.m; path = objc/FutureTests.m; sourceTree = "<group>"; };
+		7882884A1A515E530059A7F1 /* EventAsyncTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventAsyncTests.m; path = objc/EventAsyncTests.m; sourceTree = "<group>"; };
+		7882884B1A515E530059A7F1 /* EventTransformTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventTransformTests.m; path = objc/EventTransformTests.m; sourceTree = "<group>"; };
 		78E984551A494B2D006387D8 /* libeventually.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libeventually.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		78E984601A494B2D006387D8 /* eventually-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "eventually-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78E9846F1A494E09006387D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -98,11 +106,12 @@
 		78E984641A494B2D006387D8 /* eventually-tests */ = {
 			isa = PBXGroup;
 			children = (
+				7882884A1A515E530059A7F1 /* EventAsyncTests.m */,
+				7882884B1A515E530059A7F1 /* EventTransformTests.m */,
 				78E984651A494B2D006387D8 /* Supporting Files */,
 				78E984851A4B0F2F006387D8 /* EventFiringTests.m */,
-				7882883D1A4CBE280059A7F1 /* EventTransformTests.m */,
 				78E984881A4B4EFD006387D8 /* TheRulesTests.m */,
-				788288401A4DF9BD0059A7F1 /* EventAsyncTests.m */,
+				788288481A515E1C0059A7F1 /* FutureTests.m */,
 			);
 			name = "eventually-tests";
 			path = test;
@@ -122,6 +131,10 @@
 				78E984711A494EED006387D8 /* Eventually.h */,
 				78E984901A4B713F006387D8 /* Event.h */,
 				78E984911A4B713F006387D8 /* Event.m */,
+				788288421A51519C0059A7F1 /* Future.h */,
+				788288431A51519C0059A7F1 /* Future.m */,
+				788288451A5156190059A7F1 /* CallOnBindFireable.h */,
+				788288461A5156190059A7F1 /* CallOnBindFireable.m */,
 			);
 			name = src;
 			path = src/objc;
@@ -215,7 +228,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				788288441A51519C0059A7F1 /* Future.m in Sources */,
 				78E984921A4B713F006387D8 /* Event.m in Sources */,
+				788288471A5156190059A7F1 /* CallOnBindFireable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,9 +239,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				78E984861A4B0F2F006387D8 /* EventFiringTests.m in Sources */,
-				7882883F1A4CBE3E0059A7F1 /* EventTransformTests.m in Sources */,
 				78E984891A4B4EFD006387D8 /* TheRulesTests.m in Sources */,
-				788288411A4DF9BD0059A7F1 /* EventAsyncTests.m in Sources */,
+				788288491A515E1C0059A7F1 /* FutureTests.m in Sources */,
+				7882884C1A515E530059A7F1 /* EventAsyncTests.m in Sources */,
+				7882884D1A515E530059A7F1 /* EventTransformTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
