@@ -32,13 +32,13 @@
     for (int i = 0; i < scopeCount; ++i) {
         id scope = [[NSObject alloc] init];
         
-        [event handledBy:^(id arg) {
+        [event call:^(id arg) {
             eventsFired1++;
-        } inScope:scope];
+        } scopedTo:scope];
         
-        [event handledBy:^(id arg) {
+        [event call:^(id arg) {
             eventsFired2++;
-        } inScope:scope];
+        } scopedTo:scope];
         
         // hold a reference to the scope so it is not deallocated yet
         [scopes addObject:scope];
@@ -76,7 +76,7 @@
     __block int eventsFired = 0;
     __block BOOL first = YES;
     
-    __block EventBinding *binding = [event handledBy:^(id arg) {
+    __block EventBinding *binding = [event call:^(id arg) {
         eventsFired++;
         
         if (first) {
@@ -86,7 +86,7 @@
             
             [fireable fire:@(1)];
         }
-    } inScope:self];
+    } scopedTo:self];
     
     [fireable fire:@(0)];
     
@@ -103,17 +103,17 @@
     __block int eventsFired = 0;
     __block BOOL first = YES;
     
-    [event handledBy:^(id arg) {
+    [event call:^(id arg) {
         if (first) {
             first = NO;
             
-            [event handledBy:^(id arg) {
+            [event call:^(id arg) {
                 ++eventsFired;
-            } inScope:self];
+            } scopedTo:self];
             
             [fireable fire:@(0)];
         }
-    } inScope:self];
+    } scopedTo:self];
     
     [fireable fire:@(0)];
     

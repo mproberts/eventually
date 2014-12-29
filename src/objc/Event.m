@@ -105,7 +105,7 @@
 
 @implementation Event
 
-- (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object
+- (EventBinding *)call:(event_handler_t)handler scopedTo:(id)object
 {
     @throw @"Not Implemented";
 }
@@ -116,9 +116,9 @@
     
     // bind the fireable to itself, this will have to be retained by
     // any interested events
-    [self handledBy:^(id arg) {
+    [self call:^(id arg) {
         [fireable fire:method(arg)];
-    } inScope:fireable];
+    } scopedTo:fireable];
     
     return fireable;
 }
@@ -129,11 +129,11 @@
     
     // bind the fireable to itself, this will have to be retained by
     // any interested events
-    [self handledBy:^(id arg) {
+    [self call:^(id arg) {
         dispatch_async(queue, ^{
             [fireable fire:arg];
         });
-    } inScope:fireable];
+    } scopedTo:fireable];
     
     return fireable;
 }
@@ -144,7 +144,7 @@
     
     // bind the fireable to itself, this will have to be retained by
     // any interested events
-    [self handledBy:^(id arg) {
+    [self call:^(id arg) {
         if (pthread_main_np()) {
             [fireable fire:arg];
         }
@@ -153,7 +153,7 @@
                 [fireable fire:arg];
             });
         }
-    } inScope:fireable];
+    } scopedTo:fireable];
     
     return fireable;
 }
@@ -194,7 +194,7 @@
     }
 }
 
-- (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object
+- (EventBinding *)call:(event_handler_t)handler scopedTo:(id)object
 {
     Scope *scope = [Scope scopeForObject:object];
     BoundBlock *blockBinding = [[BoundBlock alloc] initWithBlock:handler scope:object event:self];

@@ -24,9 +24,9 @@
     
     __block NSNumber *value = nil;
     
-    [event handledBy:^(NSNumber *number) {
+    [event call:^(NSNumber *number) {
         value = number;
-    } inScope:self];
+    } scopedTo:self];
     
     [fireable fire:@(1)];
     

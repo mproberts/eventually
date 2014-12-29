@@ -106,10 +106,10 @@
 		78E984641A494B2D006387D8 /* eventually-tests */ = {
 			isa = PBXGroup;
 			children = (
-				7882884A1A515E530059A7F1 /* EventAsyncTests.m */,
-				7882884B1A515E530059A7F1 /* EventTransformTests.m */,
 				78E984651A494B2D006387D8 /* Supporting Files */,
 				78E984851A4B0F2F006387D8 /* EventFiringTests.m */,
+				7882884A1A515E530059A7F1 /* EventAsyncTests.m */,
+				7882884B1A515E530059A7F1 /* EventTransformTests.m */,
 				78E984881A4B4EFD006387D8 /* TheRulesTests.m */,
 				788288481A515E1C0059A7F1 /* FutureTests.m */,
 			);

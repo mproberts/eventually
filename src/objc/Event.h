@@ -18,7 +18,7 @@ typedef id (^transform_method_t)(id arg);
 
 @interface Event : NSObject
 
-- (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object;
+- (EventBinding *)call:(event_handler_t)handler scopedTo:(id)object;
 
 - (Event *)transformedWith:(transform_method_t)method;
 
@@ -32,7 +32,7 @@ typedef id (^transform_method_t)(id arg);
 
 + (Fireable *)fireable;
 
-- (EventBinding *)handledBy:(event_handler_t)handler inScope:(id)object;
+- (EventBinding *)call:(event_handler_t)handler scopedTo:(id)object;
 
 - (void)fire:(id)eventArg;
 

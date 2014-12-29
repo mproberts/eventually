@@ -25,10 +25,10 @@
     __block BOOL onMainThread = YES;
     __block NSNumber *value = nil;
     
-    [event handledBy:^(NSNumber *number) {
+    [event call:^(NSNumber *number) {
         onMainThread = pthread_main_np();
         value = number;
-    } inScope:self];
+    } scopedTo:self];
     
     [fireable fire:@(1)];
     

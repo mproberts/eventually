@@ -19,11 +19,11 @@
 {
     ResolvableFuture *future = [ResolvableFuture future];
     __block BOOL handled = NO;
-        
-    [future.when handledBy:^(NSString *result) {
+    
+    [future.when call:^(NSString *result) {
         XCTAssertEqualObjects(@"fancy", result);
         handled = YES;
-    } inScope:self];
+    } scopedTo:self];
     
     XCTAssertFalse(handled);
     
