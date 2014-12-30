@@ -194,6 +194,7 @@
         } scopedTo:scope];
     }
     
+    /*/
     [self measureBlock:^{
         ++runs;
         
@@ -201,6 +202,7 @@
             [fireable fire:@(i)];
         }
     }];
+    /**/
     
     XCTAssertEqual(firedEvents, handlers * iterations * runs);
 }
